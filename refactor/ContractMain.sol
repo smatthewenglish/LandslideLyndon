@@ -8,7 +8,6 @@ contract NiftyCore {
    address public addressRegistry = 0x6e53130dDfF21E3BC963Ee902005223b9A202106;
 }
 
-
 contract BuilderShop is NiftyCore {
    address[] builderInstances;
    uint contractId = 0;
@@ -1001,7 +1000,7 @@ contract NiftyBuilderInstance is ERC721Full, NiftyCore {
        //mint token
        _mint(collector_address, tokenId);
        _setTokenURI(tokenId, tokenURI);
-       _setTokenIPFSHash(tokenId, ipfsHash);
+       _setTokenIPFSHash(niftyType, ipfsHash);
        //do events
        emit NiftyCreated(collector_address, niftyType, tokenId);
    }
