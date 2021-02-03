@@ -29,15 +29,14 @@ _setTokenIPFSHash(tokenId, ipfsHash);
  ```
 For nifties such as *The OG* (n/50) we end up with the following: 
 ```json
-{"6200050001": QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv,
- "6200050002": QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv,
-  ...
- "6200050050": QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv}
+{"6200050001":"QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv",
+ "6200050002":"QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv",
+ "6200050050":"QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv"}
 ```
 Since the association of an edition with an IPFS hash is likewise stored in `_niftyIPFSHashes[niftyType]` we could, without loss of generality, set this `ERC721Metadata` property with the `niftyType` exclusively, or without reference to the `specificTokenId` like so:
 
 ```json
-{"62000500": QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv}
+{"62000500":"QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv"}
 ```
 
 As the metadata extension is considered optional for `ERC721` compliance the call to `_setTokenIPFSHash(tokenId, ipfsHash)` could be removed entirely. 
