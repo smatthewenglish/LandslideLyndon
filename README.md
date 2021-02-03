@@ -52,9 +52,36 @@ As the metadata extension is considered optional for `ERC721` compliance the cal
 
 ## Execution
 
+### Assembly 
 
+Requires more testing, could be optimized away by the compiler but...
+
+### Batch minting
+
+Possibility of out fo gas errors...
 
 ## Design
+
+This section comprises possible simplifications of the design patterns used with an eye toward efficiency and comprehensibility. 
+
+### isNiftySoldOut × niftyType
+
+The prompt mentions that a nifty type "*gives no information about the edition size*", which mean the following check could be removed: 
+```javascript
+function isNiftySoldOut(uint niftyType) public view returns (bool) {
+    if (niftyType > numNiftiesCurrentlyInContract) {...}
+}
+```
+The new `isNiftySoldOut()` method body would look like so: 
+```javascript
+if (_numNiftyMinted[niftyType].current() > _numNiftyPermitted[niftyType]) {
+    return (true);
+}
+return (false);
+```
+
+
+### Inheritance
 
 There are two instances of the `niftyRegistryContract` address, once in `BuilderShop` and once in `NiftyBuilderInstance`.
 ```javascript

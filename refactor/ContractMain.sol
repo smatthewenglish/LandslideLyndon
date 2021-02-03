@@ -4,15 +4,17 @@
 
 pragma solidity ^0.5.0;
 
-contract BuilderShop {
+contract NiftyCore {
+   address public addressRegistry = 0x6e53130dDfF21E3BC963Ee902005223b9A202106;
+}
+
+
+contract BuilderShop is NiftyCore {
    address[] builderInstances;
    uint contractId = 0;
 
-   //nifty registry is hard coded
-   address niftyRegistryContract = 0x6e53130dDfF21E3BC963Ee902005223b9A202106;
-
    modifier onlyValidSender() {
-       NiftyRegistry nftg_registry = NiftyRegistry(niftyRegistryContract);
+       NiftyRegistry nftg_registry = NiftyRegistry(addressRegistry);
        bool is_valid = nftg_registry.isValidNiftySender(msg.sender);
        require(is_valid==true);
        _;
@@ -907,13 +909,11 @@ contract ERC721Full is ERC721, ERC721Enumerable, ERC721Metadata {
    }
 }
 
-
-contract NiftyBuilderInstance is ERC721Full {
+contract NiftyBuilderInstance is ERC721Full, NiftyCore {
 
    //MODIFIERS
-
    modifier onlyValidSender() {
-       NiftyRegistry nftg_registry = NiftyRegistry(niftyRegistryContract);
+       NiftyRegistry nftg_registry = NiftyRegistry(addressRegistry);
        bool is_valid = nftg_registry.isValidNiftySender(msg.sender);
        require(is_valid==true);
        _;
@@ -931,13 +931,8 @@ contract NiftyBuilderInstance is ERC721Full {
    //baseURI for metadata server
    string public baseURI;
 
-//   //name of creator
-//   string public creatorName;
-
+   //name of creator
    string public nameOfCreator;
-
-   //nifty registry contract
-   address public niftyRegistryContract = 0x6e53130dDfF21E3BC963Ee902005223b9A202106;
 
    //master builder - ONLY DOES STATIC CALLS
    address public masterBuilderContract = 0x6EFB06cF568253a53C7511BD3c31AB28BecB0192;
@@ -945,21 +940,16 @@ contract NiftyBuilderInstance is ERC721Full {
    using Counters for Counters.Counter;
 
    //MAPPINGS
-
-   //mappings for token Ids
    mapping (uint => Counters.Counter) public _numNiftyMinted;
    mapping (uint => uint) public _numNiftyPermitted;
    mapping (uint => uint) public _niftyPrice;
    mapping (uint => string) public _niftyIPFSHashes;
 
    //EVENTS
-
-   //purchase + creation events
    event NiftyPurchased(address _buyer, uint256 _amount, uint _tokenId);
    event NiftyCreated(address new_owner, uint _niftyType, uint _tokenId);
 
    //CONSTRUCTOR FUNCTION
-
    constructor(
        string memory _name,
        string memory _symbol,
@@ -987,14 +977,10 @@ contract NiftyBuilderInstance is ERC721Full {
     }
 
    function isNiftySoldOut(uint niftyType) public view returns (bool) {
-       if (niftyType > numNiftiesCurrentlyInContract) {
-           return true;
-       }
        if (_numNiftyMinted[niftyType].current() > _numNiftyPermitted[niftyType]) {
            return (true);
-       } else {
-           return (false);
        }
+       return (false);
    }
 
    function giftNifty(address collector_address, 
