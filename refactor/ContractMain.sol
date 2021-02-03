@@ -1000,7 +1000,7 @@ contract NiftyBuilderInstance is ERC721Full, NiftyCore {
        //mint token
        _mint(collector_address, tokenId);
        _setTokenURI(tokenId, tokenURI);
-       _setTokenIPFSHash(niftyType, ipfsHash);
+       _setTokenIPFSHash(niftyType, ipfsHash); //indexed by niftyType instead of tokenId
        //do events
        emit NiftyCreated(collector_address, niftyType, tokenId);
    }
