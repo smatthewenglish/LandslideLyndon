@@ -10,7 +10,7 @@ The optimizations described in the following section realize performance improve
 The `_IPFSHashHasBeenSet` mapping indicates whether a `niftyType` has been allocated an IPFS hash. 
 ```javascript
 mapping (uint => bool) public _IPFSHashHasBeenSet;`
-```/Users/sme/Desktop/GasUsage.md
+```
 The mapping can be made redundant by setting `_niftyIPFSHashes[niftyType]` to a default value which indicates that it hasn't yet been assigned, e.g. `0000000000000000000000000000000000000000000000`. Resulting in the following: 
 
 ```javascript
