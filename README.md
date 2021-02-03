@@ -9,7 +9,7 @@ The optimizations described in the following section realize performance improve
 ### _IPFSHashHasBeenSet
 The `_IPFSHashHasBeenSet` mapping indicates whether a `niftyType` has been allocated an IPFS hash. 
 ```javascript
-mapping (uint => bool) public _IPFSHashHasBeenSet;`
+mapping (uint => bool) public _IPFSHashHasBeenSet;
 ```
 The mapping can be made redundant by setting `_niftyIPFSHashes[niftyType]` to a default value which indicates that it hasn't yet been assigned, e.g. `0000000000000000000000000000000000000000000000`. Resulting in the following: 
 
@@ -63,6 +63,14 @@ Possibility of out fo gas errors...
 ## Design
 
 This section comprises possible simplifications of the design patterns used with an eye toward efficiency and comprehensibility. 
+
+### Data Model × tokenID 
+The prompt defines the `tokenId` as comprised by the concatenation of three values:
+```
+{contract_id}{nifty_type}{edition #}
+```
+If we defined them instead as `{contract_id}{nifty_type}{edition #}` and treated the tokenID as a number e.g. `100010001` we would be able to execute operations on it like rounding `((3/30)*3)*100` to create mappings based on `nifty_type`, ignoring `edition #` completely, while also saving gas since string manipulation is more expensive than mathematical operations.
+
 
 ### isNiftySoldOut × niftyType
 
