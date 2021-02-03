@@ -1,22 +1,13 @@
 {
-  "name": "hardhat-project",
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "chai": "^4.2.0",
-    "ethereum-waffle": "^3.2.2",
-    "ethers": "^5.0.28",
-    "hardhat": "^2.0.8"
-  },
-  "description": "With the smart contract deployed [here](https://etherscan.io/address/0xf924fed62a15c879213e677dada6cf7db5174620#code) as a baseline, this document describes a number of modifications, implemented by the smart contract in [this](https://github.com/smatthewenglish/LandslideLyndon) GitHub repository.",
+  "name": "LandslideLyndon",
   "version": "1.0.0",
-  "main": "hardhat.config.js",
+  "description": "With the smart contract deployed [here](https://etherscan.io/address/0xf924fed62a15c879213e677dada6cf7db5174620#code) as a baseline, this document describes a number of modifications, implemented by the smart contract in [this](https://github.com/smatthewenglish/LandslideLyndon) GitHub repository.",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -28,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/smatthewenglish/LandslideLyndon/issues"
   },
-  "homepage": "https://github.com/smatthewenglish/LandslideLyndon#readme"
+  "homepage": "https://github.com/smatthewenglish/LandslideLyndon#readme",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.1",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^3.2.2",
+    "ethers": "^5.0.28",
+    "hardhat": "^2.0.8"
+  }
 }
