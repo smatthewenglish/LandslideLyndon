@@ -1,6 +1,7 @@
-# Gas Usage Reduction 🏗⛽
+# NG Gas Usage Reduction 🏗⛽
 
-With the smart contract deployed [here](https://etherscan.io/address/0xf924fed62a15c879213e677dada6cf7db5174620#code) as a baseline, this document describes a number of modifications, implemented by the smart contract in [this](https://github.com/smatthewenglish/LandslideLyndon) GitHub repository.
+
+The process of refactorization entails two essential prerequisites, the desired outcome and an established baseline. In this case the desired outcome is the reduction of gas usage in NFT instantiation/allocation. The metric against which the proposed changes described in this document are assessed is a modified version of  `NiftyBuilderMaster`, deployed to Rinkeby Testnet [here](https://rinkeby.etherscan.io/address/0xab6c1f49989020c31942d12014dcab14b81f99ff#code), and a modified version of `NiftyBuilderInstance` also on Rinkeby, found [here](https://rinkeby.etherscan.io/address/0x64997Ad14666d8e2abc8891602Ac76E4072A065F#code). The refactored smart contracts can be found in [this](https://github.com/smatthewenglish/LandslideLyndon) GitHub repository.
 
 ## Storage
 
@@ -11,15 +12,17 @@ The `_IPFSHashHasBeenSet` mapping indicates whether a `niftyType` has been alloc
 ```javascript
 mapping (uint => bool) public _IPFSHashHasBeenSet;
 ```
-The mapping can be made redundant by setting `_niftyIPFSHashes[niftyType]` to a default value which indicates that it hasn't yet been assigned, e.g. `0000000000000000000000000000000000000000000000`. Resulting in the following: 
+The mapping can be made redundant by evaluating whether or not `_niftyIPFSHashes[niftyType]` is an empty string. Resulting in the following method for `setNiftyIPFSHash()`: 
 
 ```javascript
-function setNiftyIPFSHash(uint niftyType, string memory ipfs_hash) onlyValidSender public {    
-    require(_niftyIPFSHashes[niftyType] != "0000000000000000000000000000000000000000000000", "Can only be set once.");
+function setNiftyIPFSHash(uint niftyType, string memory ipfs_hash) onlyValidSender public {      
+    require(bytes(_niftyIPFSHashes[niftyType]).length == 0, "Can only be set once.");
     _niftyIPFSHashes[niftyType] = ipfs_hash;
 }
 ```
-Allowing us to safely remove the `_IPFSHashHasBeenSet` mapping. As an aside, additional gas savings can be achieved by removing the error message from the `require()` statement. 
+Thereby allowing us to safely remove `_IPFSHashHasBeenSet`, eliminating the cost associated with storage of that information. 
+
+As an aside, additional gas savings can be achieved by removing the error message from the `require()` statement. 
 
 ### _niftyIPFSHashes
 
@@ -39,7 +42,11 @@ Since the association of an edition with an IPFS hash is likewise stored in `_ni
 {"62000500":"QmdKektfKmAEw7f692D7G5yQbacQomeaRmgMDnpqG9bcJv"}
 ```
 
-As the metadata extension is considered optional for `ERC721` compliance the call to `_setTokenIPFSHash(tokenId, ipfsHash)` could be removed entirely. 
+As the metadata extension is considered optional for `ERC721` compliance, if it was deemed desirable the call to `_setTokenIPFSHash(tokenId, ipfsHash)` could be eliminated entirely. 
+
+Notwithstanding the consolidated mapping from type to IPFS hash, assigning individualized token identifiers has emergent utility, as observed by the fact that *The OG* [#8/50](https://niftygateway.com/itemdetail/secondary/0xf924fed62a15c879213e677dada6cf7db5174620/6200050008) is listed on the marketplace for $888.00 (*a substantial markup from others of the same edition*), likely in reference to the tokenID of `6200050008`. This is a clear differentiator from the "Multi Token Standard" ERC-1155. 
+
+
 
 
 
