@@ -67,12 +67,17 @@ contract NiftyBuilderMaster {
          uint mid_level = getNiftyTypeId(tokenId);
          return uint(tokenId - (topLevelMultiplier*top_level) - (mid_level*midLevelMultiplier));
     }
-    
+        
     function encodeTokenId(uint contractIdCalc, uint niftyType, uint specificNiftyNum) public view returns (uint) {
-        return ((contractIdCalc * topLevelMultiplier) + (niftyType * midLevelMultiplier) + specificNiftyNum);
+      assembly {
+        let result := add((contractIdCalc * topLevelMultiplier), (niftyType * midLevelMultiplier))
+        mstore(0x0, result)
+        return(0x0, 32) 
+      }
+      return result + specificNiftyNum;
     }
-    
-      // via https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol
+
+    // via https://github.com/oraclize/ethereum-api/blob/master/oraclizeAPI_0.5.sol
     function strConcat(string memory _a, string memory _b, string memory _c, string memory _d, string memory _e) public view returns (string memory) {
       bytes memory _ba = bytes(_a);
       bytes memory _bb = bytes(_b);
