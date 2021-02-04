@@ -70,7 +70,7 @@ function encodeTokenId(uint contractIdCalc, uint niftyType, uint specificNiftyNu
 ### Batch minting
 
 Using a `for` loop to batch mint nifties exposes us to `Out of Gas` and `Timeout` exceptions. 
-One way to mitigate this might be to employ a function that takes the number of iterations as a parameter to be adjusted to a targeted value ensured, based on prior empirical validation, to complete successfully. 
+One way to mitigate this would be to employ a function that takes the number of iterations as a parameter to be adjusted to a targeted value ensured, based on prior empirical validation, to complete successfully. 
 
 ## Design
 
