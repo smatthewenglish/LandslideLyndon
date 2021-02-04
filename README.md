@@ -49,7 +49,7 @@ As the metadata extension is considered optional for `ERC721` compliance, if dee
 
 ## Execution
 
-This section details changes that simply or remove the computational costs entailed in the modification of data. 
+This section details changes that simplify or remove the computational costs entailed in the modification of data. 
 
 ### Bitwise Operation × Assembly 
 
